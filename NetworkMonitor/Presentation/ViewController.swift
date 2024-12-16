@@ -78,6 +78,7 @@ final class ViewController: UIViewController {
     private func subscribeNetworkMonitorWithRxSwift() {
         NetworkMonitorWithRxSwift.shared.isConnected
             .observe(on: MainScheduler.instance)
+            .distinctUntilChanged()
             .subscribe(onNext: { [weak self] isConnected in
                 self?.networkConnectionStatusLabel.text = isConnected ? "Is connected" : "Is not connected"
             })
@@ -85,6 +86,7 @@ final class ViewController: UIViewController {
         
         NetworkMonitorWithRxSwift.shared.interfaceType
             .observe(on: MainScheduler.instance)
+            .distinctUntilChanged()
             .compactMap { $0 }
             .subscribe(onNext: { [weak self] type in
                 self?.networkInterfaceTypeLabel.text = "\(type)"
